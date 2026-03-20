@@ -11,6 +11,7 @@ import {
   PaymentStatusResponse,
   PerformanceOption,
   Product,
+  Testimonial,
 } from "@/lib/types";
 
 const DEFAULT_API_BASE_URL = "http://127.0.0.1:8000";
@@ -139,6 +140,10 @@ export async function getPerformanceOptions() {
 
 export async function getProducts() {
   return apiFetch<Product[]>("/api/shop/products/");
+}
+
+export async function getTestimonials() {
+  return apiFetch<Testimonial[]>("/api/testimonials/");
 }
 
 export async function getProduct(slug: string) {

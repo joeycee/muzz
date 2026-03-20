@@ -1,5 +1,4 @@
 import { BookingStatusClient } from "@/components/booking-status-client";
-import { PaymentBanner } from "@/components/payment-banner";
 import { getBooking, getBookingPaymentStatus } from "@/lib/api";
 
 type BookingStatusPageProps = {
@@ -33,9 +32,6 @@ export default async function BookingStatusPage({
           in the backend.
         </p>
       </div>
-
-      <PaymentBanner payment={query.payment} />
-
       <BookingStatusClient
         initialBooking={booking}
         initialPaymentStatus={paymentStatus}

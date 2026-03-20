@@ -45,7 +45,7 @@ export function BookingSummaryPanel({
             label="Location"
             value="Venue details are confirmed in the next step"
           />
-          <SummaryItem label="Performer" value="Muzz" />
+          <SummaryItem label="Performer" value="Mitch" />
           <SummaryItem
             label="Duration"
             value={formatDuration(offering.duration)}

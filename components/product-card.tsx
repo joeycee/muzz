@@ -9,11 +9,13 @@ import { DigitalBadge } from "@/components/digital-badge";
 import { formatCurrency } from "@/lib/format";
 import { getMediaUrl } from "@/lib/api";
 import { Product } from "@/lib/types";
+import { normalizeProductSizes } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
   const imageUrl = getMediaUrl(product.primary_image || product.image);
+  const sizeOptions = normalizeProductSizes(product.available_sizes);
 
   function handleAddToCart() {
     addItem(product);
@@ -56,6 +58,9 @@ export function ProductCard({ product }: { product: Product }) {
           {product.is_digital ? (
             <p className="pc-download-note">No shipping required</p>
           ) : null}
+          {product.has_size_options ? (
+            <p className="pc-download-note">Available sizes: {sizeOptions.map((size) => size.label).join(", ")}</p>
+          ) : null}
           <p className="pc-stock">{product.stock} in stock</p>
         </div>
 
@@ -63,13 +68,19 @@ export function ProductCard({ product }: { product: Product }) {
           <Link href={`/shop/${product.slug}`} className="pc-link">
             View details
           </Link>
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={added ? "pc-btn pc-btn--added" : "pc-btn"}
-          >
-            {added ? "Added ✓" : "Add to cart"}
-          </button>
+          {product.has_size_options ? (
+            <Link href={`/shop/${product.slug}`} className="pc-btn pc-btn--link">
+              Choose size
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className={added ? "pc-btn pc-btn--added" : "pc-btn"}
+            >
+              {added ? "Added ✓" : "Add to cart"}
+            </button>
+          )}
         </div>
       </div>
 
@@ -214,6 +225,9 @@ export function ProductCard({ product }: { product: Product }) {
           background: rgba(143,170,132,0.15);
           color: #8faa84;
           border: 1px solid rgba(143,170,132,0.3);
+        }
+        .pc-btn--link {
+          text-decoration: none;
         }
         .pc-btn--added:hover { background: rgba(143,170,132,0.2); transform: none; }
       `}</style>

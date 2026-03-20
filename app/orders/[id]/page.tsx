@@ -1,5 +1,4 @@
 import { OrderStatusClient } from "@/components/order-status-client";
-import { PaymentBanner } from "@/components/payment-banner";
 import { getOrder, getOrderDownloads, getOrderPaymentStatus } from "@/lib/api";
 
 type OrderStatusPageProps = {
@@ -37,9 +36,6 @@ export default async function OrderStatusPage({
           from Stripe.
         </p>
       </div>
-
-      <PaymentBanner payment={query.payment} />
-
       <OrderStatusClient
         initialOrder={order}
         initialPaymentStatus={paymentStatus}

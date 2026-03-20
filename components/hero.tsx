@@ -65,7 +65,7 @@ export function Hero() {
             <span>Live music for elevated spaces</span>
           </div>
           <h1 className="h-title">
-            <span className="h-tl h-tl-1">Old</span>
+            <span className="h-tl h-tl-1">Pure</span>
             <span className="h-tl h-tl-2">
               <em>soul.</em>
             </span>

@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { DownloadSection } from "@/components/download-section";
 import { OrderStatusActions } from "@/components/order-status-actions";
+import { PaymentProcessingPopup } from "@/components/payment-processing-popup";
 import { PaymentStatusBadge } from "@/components/payment-status-badge";
 import {
   getApiErrorMessage,
@@ -157,10 +158,16 @@ export function OrderStatusClient({
     paymentReturn === "success" &&
     order.has_downloadable_items &&
     paymentStatus.payment_status !== "paid";
+  const isPaymentConfirmed = paymentStatus.payment_status === "paid";
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-      <section className="space-y-6 rounded-[1.75rem] border border-white/10 bg-[#101010] p-6">
+    <>
+      <PaymentProcessingPopup
+        isOpen={paymentReturn === "success"}
+        isConfirmed={isPaymentConfirmed}
+      />
+      <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+        <section className="space-y-6 rounded-[1.75rem] border border-white/10 bg-[#101010] p-6">
         <div className="flex flex-wrap items-center gap-3">
           <PaymentStatusBadge
             label={titleizeStatus(paymentStatus.payment_status)}
@@ -190,6 +197,9 @@ export function OrderStatusClient({
               <div>
                 <p className="text-lg text-stone-100">{item.product.name}</p>
                 <p className="text-sm text-stone-400">Qty {item.quantity}</p>
+                {item.size ? (
+                  <p className="text-sm text-stone-400">Size {item.size}</p>
+                ) : null}
               </div>
               <p className="text-stone-200">{formatCurrency(item.line_total)}</p>
             </div>
@@ -226,48 +236,49 @@ export function OrderStatusClient({
             </div>
           </div>
         ) : null}
-      </section>
+        </section>
 
-      <aside className="space-y-5 rounded-[1.75rem] border border-[#31402c] bg-[#0f110f] p-6">
-        <h2 className="font-[family-name:var(--font-heading)] text-3xl text-stone-100">
-          Payment details
-        </h2>
-        <Detail label="Amount due" value={formatCurrency(paymentStatus.amount)} />
-        <Detail
-          label="Payment record"
-          value={
-            paymentStatus.latest_payment?.id
-              ? `#${paymentStatus.latest_payment.id}`
-              : "Not created"
-          }
-        />
-        <Detail
-          label="Receipt"
-          value={paymentStatus.latest_payment?.receipt_number || "Not available yet"}
-        />
-        {pollError ? (
-          <div className="rounded-2xl border border-[#6d5d2a] bg-[#1b170d] px-4 py-3 text-sm text-[#f2df9f]">
-            {pollError}
-          </div>
-        ) : null}
-        {verificationMessage ? (
-          <div className="rounded-2xl border border-[#31402c] bg-black/20 px-4 py-3 text-sm leading-6 text-stone-300">
-            {verificationMessage}
-          </div>
-        ) : null}
-        <OrderStatusActions
-          orderId={order.id}
-          paymentStatus={paymentStatus.payment_status}
-          paymentReturn={paymentReturn}
-        />
-        <Link
-          href="/shop"
-          className="inline-flex text-sm uppercase tracking-[0.18em] text-stone-400 hover:text-white"
-        >
-          Continue shopping
-        </Link>
-      </aside>
-    </div>
+        <aside className="space-y-5 rounded-[1.75rem] border border-[#31402c] bg-[#0f110f] p-6">
+          <h2 className="font-[family-name:var(--font-heading)] text-3xl text-stone-100">
+            Payment details
+          </h2>
+          <Detail label="Amount due" value={formatCurrency(paymentStatus.amount)} />
+          <Detail
+            label="Payment record"
+            value={
+              paymentStatus.latest_payment?.id
+                ? `#${paymentStatus.latest_payment.id}`
+                : "Not created"
+            }
+          />
+          <Detail
+            label="Receipt"
+            value={paymentStatus.latest_payment?.receipt_number || "Not available yet"}
+          />
+          {pollError ? (
+            <div className="rounded-2xl border border-[#6d5d2a] bg-[#1b170d] px-4 py-3 text-sm text-[#f2df9f]">
+              {pollError}
+            </div>
+          ) : null}
+          {verificationMessage ? (
+            <div className="rounded-2xl border border-[#31402c] bg-black/20 px-4 py-3 text-sm leading-6 text-stone-300">
+              {verificationMessage}
+            </div>
+          ) : null}
+          <OrderStatusActions
+            orderId={order.id}
+            paymentStatus={paymentStatus.payment_status}
+            paymentReturn={paymentReturn}
+          />
+          <Link
+            href="/shop"
+            className="inline-flex text-sm uppercase tracking-[0.18em] text-stone-400 hover:text-white"
+          >
+            Continue shopping
+          </Link>
+        </aside>
+      </div>
+    </>
   );
 }
 

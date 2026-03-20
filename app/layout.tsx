@@ -7,8 +7,13 @@ import { Navbar } from "@/components/navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Muzz | Roots, Rhythm, and Booking",
+  title: "Mitch | Roots, Rhythm, and Booking",
   description: "Premium reggae and roots music bookings and merchandise.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({

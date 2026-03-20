@@ -1,0 +1,29 @@
+<svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .record {
+      transform-origin: 80px 80px;
+      animation: spin 3s linear infinite;
+    }
+  </style>
+  <g class="record">
+    <circle cx="80" cy="80" r="70" fill="transparent"/>
+    <circle cx="80" cy="80" r="70" fill="none" stroke="#c8a97e" stroke-width="3"/>
+    <circle cx="80" cy="80" r="66" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.35"/>
+    <circle cx="80" cy="80" r="60" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.3"/>
+    <circle cx="80" cy="80" r="54" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.35"/>
+    <circle cx="80" cy="80" r="48" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.3"/>
+    <circle cx="80" cy="80" r="42" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.35"/>
+    <circle cx="80" cy="80" r="36" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.3"/>
+    <circle cx="80" cy="80" r="30" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.35"/>
+    <circle cx="80" cy="80" r="21" fill="none" stroke="#c8a97e" stroke-width="2"/>
+    <text
+      x="80" y="80"
+      text-anchor="middle"
+      dominant-baseline="central"
+      font-family="'Cormorant Garamond', Georgia, serif"
+      font-size="11"
+      font-weight="300"
+      fill="#c8a97e">M</text>
+  </g>
+</svg>

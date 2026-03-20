@@ -9,11 +9,16 @@ import { DigitalBadge } from "@/components/digital-badge";
 import { getMediaUrl } from "@/lib/api";
 import { formatCurrency } from "@/lib/format";
 import { Product } from "@/lib/types";
+import { normalizeProductSizes } from "@/lib/utils";
 
 export function ProductDetailView({ product }: { product: Product }) {
   const { addItem } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [added, setAdded] = useState(false);
+  const sizeOptions = normalizeProductSizes(product.available_sizes);
+  const [selectedSize, setSelectedSize] = useState(
+    sizeOptions.length === 1 ? sizeOptions[0].value : "",
+  );
 
   const gallery = useMemo(() => {
     const imageSet = product.images.length > 0
@@ -38,7 +43,11 @@ export function ProductDetailView({ product }: { product: Product }) {
   const activeImage = gallery[selectedImageIndex] || null;
 
   function handleAddToCart() {
-    addItem(product);
+    if (product.has_size_options && !selectedSize) {
+      return;
+    }
+
+    addItem(product, { size: selectedSize || undefined });
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1500);
   }
@@ -127,7 +136,33 @@ export function ProductDetailView({ product }: { product: Product }) {
               <span>Not required</span>
             </div>
           ) : null}
+          {product.has_size_options ? (
+            <div className="mt-3 flex items-center justify-between text-sm text-stone-300">
+              <span>Sizes</span>
+              <span>{sizeOptions.map((size) => size.label).join(", ")}</span>
+            </div>
+          ) : null}
         </div>
+
+        {product.has_size_options ? (
+          <label className="block rounded-[1.2rem] border border-[#31402c] bg-[#111611] p-4">
+            <span className="text-xs uppercase tracking-[0.24em] text-[#7b9a70]">
+              Select size
+            </span>
+            <select
+              value={selectedSize}
+              onChange={(event) => setSelectedSize(event.target.value)}
+              className="mt-3 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-[#7b9a70]"
+            >
+              <option value="">Choose a size</option>
+              {sizeOptions.map((size) => (
+                <option key={size.value} value={size.value}>
+                  {size.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
 
         {product.is_digital ? (
           <div className="rounded-[1.2rem] border border-[#31402c] bg-[#111611] p-4">
@@ -156,8 +191,9 @@ export function ProductDetailView({ product }: { product: Product }) {
                 ? "border border-[#50664b] bg-[#141d13] text-[#dce7d5]"
                 : "bg-[#7b9a70] text-black hover:bg-[#93b586]"
             }`}
+            disabled={product.has_size_options && !selectedSize}
           >
-            {added ? "Added to cart" : "Add to cart"}
+            {added ? "Added to cart" : product.has_size_options && !selectedSize ? "Select size" : "Add to cart"}
           </button>
           <Link
             href="/shop"

@@ -9,6 +9,7 @@ import { useCart } from "@/components/cart-provider";
 import { DigitalBadge } from "@/components/digital-badge";
 import { createOrder, createOrderCheckoutSession, getApiErrorMessage, getMediaUrl } from "@/lib/api";
 import { formatCurrency } from "@/lib/format";
+import { normalizeProductSizes } from "@/lib/utils";
 
 type OrderFormState = {
   customer_name: string;
@@ -20,7 +21,15 @@ type OrderFormState = {
 };
 
 export function OrderCheckoutForm() {
-  const { items, subtotal, increaseItem, decreaseItem, removeItem, clearCart } =
+  const {
+    items,
+    subtotal,
+    increaseItem,
+    decreaseItem,
+    removeItem,
+    updateItemSize,
+    clearCart,
+  } =
     useCart();
   const [form, setForm] = useState<OrderFormState>({
     customer_name: "",
@@ -34,9 +43,17 @@ export function OrderCheckoutForm() {
   const [error, setError] = useState("");
   const hasPhysicalItems = items.some((item) => !item.is_digital);
   const hasOnlyDigitalItems = items.every((item) => item.is_digital);
+  const hasMissingSizedSelection = items.some(
+    (item) => item.has_size_options && !item.size,
+  );
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (hasMissingSizedSelection) {
+      setError("Please choose a size for each sized product before continuing to payment.");
+      return;
+    }
+
     setIsSubmitting(true);
     setError("");
 
@@ -51,6 +68,7 @@ export function OrderCheckoutForm() {
         items: items.map((item) => ({
           product_id: item.id,
           quantity: item.quantity,
+          size: item.size,
         })),
       });
       const session = await createOrderCheckoutSession(order.id);
@@ -82,10 +100,11 @@ export function OrderCheckoutForm() {
           <div className="space-y-4">
             {items.map((item) => {
               const imageUrl = getMediaUrl(item.image);
+              const normalizedSizeOptions = normalizeProductSizes(item.available_sizes);
 
               return (
                 <article
-                  key={item.id}
+                  key={item.cartKey}
                   className="flex flex-col gap-5 rounded-[1.5rem] border border-white/10 bg-black/20 p-5 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="flex gap-4">
@@ -112,6 +131,9 @@ export function OrderCheckoutForm() {
                       <p className="text-sm uppercase tracking-[0.2em] text-[#7b9a70]">
                         {formatCurrency(item.price)} each
                       </p>
+                      {item.size ? (
+                        <p className="text-sm text-stone-300">Size: {item.size}</p>
+                      ) : null}
                       {item.product_type === "digital_album" ? (
                         <p className="text-sm text-stone-400">
                           {item.digital_tracks?.length || 0} tracks included
@@ -120,6 +142,27 @@ export function OrderCheckoutForm() {
                       {item.is_digital ? (
                         <p className="text-sm text-stone-400">No shipping required</p>
                       ) : null}
+                      {item.has_size_options ? (
+                        <label className="block pt-1">
+                          <span className="text-xs uppercase tracking-[0.2em] text-stone-500">
+                            Size
+                          </span>
+                          <select
+                            value={item.size || ""}
+                            onChange={(event) =>
+                              updateItemSize(item.cartKey, event.target.value)
+                            }
+                            className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-[#7b9a70]"
+                          >
+                            <option value="">Choose a size</option>
+                            {normalizedSizeOptions.map((size) => (
+                              <option key={size.value} value={size.value}>
+                                {size.label}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      ) : null}
                     </div>
                   </div>
 
@@ -127,7 +170,7 @@ export function OrderCheckoutForm() {
                     <div className="flex items-center rounded-full border border-[#31402c]">
                       <button
                         type="button"
-                        onClick={() => decreaseItem(item.id)}
+                        onClick={() => decreaseItem(item.cartKey)}
                         className="px-4 py-2 text-stone-200"
                         aria-label={`Decrease ${item.name}`}
                       >
@@ -138,7 +181,7 @@ export function OrderCheckoutForm() {
                       </span>
                       <button
                         type="button"
-                        onClick={() => increaseItem(item.id)}
+                        onClick={() => increaseItem(item.cartKey)}
                         className="px-4 py-2 text-stone-200"
                         aria-label={`Increase ${item.name}`}
                       >
@@ -150,7 +193,7 @@ export function OrderCheckoutForm() {
                     </span>
                     <button
                       type="button"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item.cartKey)}
                       className="text-sm uppercase tracking-[0.18em] text-stone-400 hover:text-white"
                     >
                       Remove
@@ -285,7 +328,7 @@ export function OrderCheckoutForm() {
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || hasMissingSizedSelection}
               className="inline-flex items-center justify-center rounded-full bg-[#7b9a70] px-6 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-[#93b586] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Redirecting to Stripe..." : "Create Order and Pay"}

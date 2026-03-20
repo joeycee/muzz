@@ -31,12 +31,7 @@ export function OrderStatusActions({
   }
 
   if (paymentReturn === "success") {
-    return (
-      <div className="rounded-2xl border border-[#4d6546] bg-[#132015] px-4 py-3 text-sm leading-7 text-stone-200">
-        Stripe checkout has completed on your side. We&apos;re waiting for the backend
-        to finish confirming the payment, so there&apos;s no need to pay again.
-      </div>
-    );
+    return null;
   }
 
   return (

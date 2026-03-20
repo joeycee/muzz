@@ -9,6 +9,16 @@ export type PerformanceOption = {
   image: string | null;
 };
 
+export type Testimonial = {
+  id: number;
+  name: string;
+  description: string;
+  rating: number;
+  profile_image: string | null;
+  active: boolean;
+  sort_order: number;
+};
+
 export type AvailabilitySlot = {
   id: number;
   date: string;
@@ -46,6 +56,9 @@ export type Product = {
   primary_image: string | null;
   images: ProductImage[];
   product_type: "physical" | "digital_single" | "digital_album";
+  size_profile: "none" | "clothing";
+  has_size_options: boolean;
+  available_sizes: string[];
   is_digital: boolean;
   has_downloadable_files: boolean;
   digital_tracks: DigitalTrack[];
@@ -70,6 +83,7 @@ export type DigitalTrack = {
 };
 
 export type CartItem = {
+  cartKey: string;
   id: number;
   slug: string;
   name: string;
@@ -79,6 +93,9 @@ export type CartItem = {
   product_type?: Product["product_type"];
   is_digital?: boolean;
   digital_tracks?: DigitalTrack[];
+  has_size_options?: boolean;
+  available_sizes?: string[];
+  size?: string;
   quantity: number;
 };
 
@@ -116,6 +133,7 @@ export type Booking = {
 export type OrderCreateItemInput = {
   product_id: number;
   quantity: number;
+  size?: string;
 };
 
 export type OrderCreateInput = {
@@ -134,6 +152,8 @@ export type OrderItem = {
   quantity: number;
   unit_price: string;
   line_total: string;
+  size?: string;
+  size_label?: string;
 };
 
 export type Order = {
