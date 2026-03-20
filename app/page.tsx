@@ -86,13 +86,17 @@ export default async function HomePage() {
             View all bookings
           </Link>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:grid md:overflow-visible md:pb-0 md:grid-cols-2 xl:grid-cols-3">
           {offerings.map((offering) => (
-            <OfferingCard
+            <div
               key={offering.id}
-              offering={offering}
-              ctaHref="/book/form"
-            />
+              className="w-[84vw] max-w-sm shrink-0 snap-start md:w-auto md:max-w-none"
+            >
+              <OfferingCard
+                offering={offering}
+                ctaHref="/book/form"
+              />
+            </div>
           ))}
         </div>
       </section>
