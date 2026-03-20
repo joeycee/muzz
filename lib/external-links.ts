@@ -43,6 +43,13 @@ export const externalLinks: ExternalLink[] = [
     category: "social",
   },
   {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@muznz",
+    iconUrl: "https://cdn.simpleicons.org/tiktok/c8a87a",
+    blurb: "Short-form clips, live moments, and quick hits from the Mitch universe.",
+    category: "social",
+  },
+  {
     label: "Etsy",
     href: "https://www.etsy.com/nz/shop/EKGShopNZ",
     iconUrl: "https://cdn.simpleicons.org/etsy/c8a87a",
