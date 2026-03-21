@@ -205,11 +205,6 @@ export function BookingStatusClient({
             label="Receipt"
             value={paymentStatus.latest_payment?.receipt_number || "Not available yet"}
           />
-          {isVerifying ? (
-            <div className="rounded-2xl border border-[#4d6546] bg-[#132015] px-4 py-3 text-sm leading-6 text-stone-100">
-              Verifying your deposit with Stripe...
-            </div>
-          ) : null}
           {verificationMessage ? (
             <div className="rounded-2xl border border-[#31402c] bg-black/20 px-4 py-3 text-sm leading-6 text-stone-300">
               {verificationMessage}
