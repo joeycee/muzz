@@ -205,6 +205,12 @@ export function BookingStatusClient({
             label="Receipt"
             value={paymentStatus.latest_payment?.receipt_number || "Not available yet"}
           />
+          <Link
+            href="/shop"
+            className="inline-flex w-full items-center justify-center rounded-full border border-[#4d6546] px-5 py-3 text-sm font-semibold uppercase tracking-[0.16em] text-stone-300 transition hover:border-[#7b9a70] hover:text-white"
+          >
+            Visit shop
+          </Link>
           {verificationMessage ? (
             <div className="rounded-2xl border border-[#31402c] bg-black/20 px-4 py-3 text-sm leading-6 text-stone-300">
               {verificationMessage}
