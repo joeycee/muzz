@@ -6,7 +6,7 @@ export default async function BookingSchedulePage() {
   const offerings = await getPerformanceOptions();
 
   return (
-    <div className="mx-auto max-w-7xl space-y-5 px-5 py-8 pb-12 lg:px-6">
+    <div className="mx-auto max-w-[1500px] space-y-5 px-5 py-8 pb-12 lg:px-6">
       <div className="max-w-3xl space-y-2">
         <p className="text-xs uppercase tracking-[0.32em] text-[#7b9a70]">
           Booking schedule

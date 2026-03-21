@@ -22,11 +22,7 @@ export function BookingNoticeButton({
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className={className}
-      >
+      <button type="button" onClick={() => setIsOpen(true)} className={className}>
         Book
       </button>
 
@@ -34,31 +30,17 @@ export function BookingNoticeButton({
         open={isOpen}
         title="Before we secure your date"
         description={
-          <>
-            <p>
-              To confirm your booking, a 60% deposit is collected at the time of
-              reservation so the performance date can be held exclusively for your
-              event.
-            </p>
-            <p>
-              If plans change, that deposit is refundable up to one month before the
-              event date, less any payment processing or service fees already
-              incurred.
-            </p>
-            <p>
-              The remaining balance is due once the performance has been completed,
-              keeping the process straightforward for both the client and the artist.
-            </p>
-          </>
+          <p>
+            A <strong>60% deposit</strong> is required to hold your date, refundable up to one
+            month prior. The remaining balance is due after the performance. Travel costs may
+            apply (~80c/km, ~$175/night accommodation).
+          </p>
         }
         confirmLabel="Continue to Booking"
         cancelLabel="Not now"
         onClose={() => setIsOpen(false)}
         onConfirm={() => {
-          setStoredBookingOffering({
-            id: offeringId,
-            name: offeringName,
-          });
+          setStoredBookingOffering({ id: offeringId, name: offeringName });
           setIsOpen(false);
           router.push(href);
         }}

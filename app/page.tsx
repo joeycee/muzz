@@ -85,10 +85,14 @@ export default async function HomePage() {
           >
             View all bookings
           </Link>
+	        </div>
+        <div className="flex items-center justify-end gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-stone-500 md:hidden">
+          <span>Scroll</span>
+          <span aria-hidden="true">-&gt;</span>
         </div>
-        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:grid md:overflow-visible md:pb-0 md:grid-cols-2 xl:grid-cols-3">
-          {offerings.map((offering) => (
-            <div
+	        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:grid md:overflow-visible md:pb-0 md:grid-cols-2 lg:grid-cols-3">
+	          {offerings.map((offering) => (
+	            <div
               key={offering.id}
               className="w-[84vw] max-w-sm shrink-0 snap-start md:w-auto md:max-w-none"
             >

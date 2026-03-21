@@ -88,6 +88,10 @@ export function BookingScheduler({ offerings }: { offerings: PerformanceOption[]
   const selectedDayAvailability = activeDraft.eventDate
     ? availabilityByDate[activeDraft.eventDate]
     : undefined;
+  const isTimeSlotLoading =
+    Boolean(activeDraft.eventDate) &&
+    !selectedDayAvailability &&
+    (loadingMonth || loadingDay);
 
   const timeSlots = useMemo<TimeSlot[]>(() => {
     if (!activeDraft.eventDate || !selectedOffering) return [];
@@ -120,7 +124,7 @@ export function BookingScheduler({ offerings }: { offerings: PerformanceOption[]
           selectedDate={activeDraft.eventDate}
           selectedTime={activeDraft.eventTime}
           slots={timeSlots}
-          isLoading={loadingMonth || loadingDay}
+          isLoading={isTimeSlotLoading}
           onSelectTime={(time) => setStoredBookingDraft({ eventTime: time })}
         />
         <BookingSummaryPanel
@@ -161,10 +165,14 @@ export function BookingScheduler({ offerings }: { offerings: PerformanceOption[]
           display: grid;
           gap: 1.25rem;
         }
-        @media (min-width: 1280px) {
-          .bs-grid { grid-template-columns: 0.92fr 0.96fr 0.82fr; gap: 1rem; align-items: start; }
+        @media (min-width: 1024px) {
+          .bs-grid {
+            grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.98fr) minmax(280px, 0.8fr);
+            gap: 1rem;
+            align-items: start;
+          }
         }
-        @media (min-width: 768px) and (max-width: 1279px) {
+        @media (min-width: 768px) and (max-width: 1023px) {
           .bs-grid { grid-template-columns: 1fr 1fr; }
         }
       `}</style>
