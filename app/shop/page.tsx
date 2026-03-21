@@ -12,8 +12,8 @@ export default async function ShopPage() {
           Merchandise
         </h1>
         <p className="text-lg leading-8 text-stone-300">
-          A storefront backed by the live shop product API, with local cart storage
-          so visitors can build an order before checkout wiring is added.
+          Explore a curated collection of merchandise, music, and keepsakes inspired
+          by the live experience.
         </p>
       </div>
 

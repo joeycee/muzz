@@ -32,8 +32,7 @@ export default async function OrderStatusPage({
           Order #{order.id}
         </h1>
         <p className="text-lg leading-8 text-stone-300">
-          Review the order and payment state synced from the backend after returning
-          from Stripe.
+          Review your order details and payment status after returning from Stripe.
         </p>
       </div>
       <OrderStatusClient

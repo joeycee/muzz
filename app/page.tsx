@@ -115,8 +115,8 @@ export default async function HomePage() {
               Merch with soul
             </h2>
             <p className="max-w-2xl text-stone-400">
-              A clean, premium merch collection connected directly to the live shop
-              inventory from the backend.
+              A premium merch collection with music, apparel, and keepsakes made to
+              carry the spirit of the live show home with you.
             </p>
           </div>
           <Link

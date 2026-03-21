@@ -351,14 +351,14 @@ export function OrderCheckoutForm() {
             {hasOnlyDigitalItems
               ? "Free (Digital Download)"
               : hasPhysicalItems
-                ? "Calculated by backend"
+                ? "Calculated at checkout"
                 : "--"}
           </span>
         </div>
         <p className="mt-4 text-sm leading-7 text-stone-400">
           {hasOnlyDigitalItems
             ? "This cart contains only digital music downloads. No physical shipping will be charged."
-            : "Submitting creates an order in the backend, then starts Stripe checkout using the existing order payment endpoint."}
+            : "When you continue, we&apos;ll prepare your order and take you to secure Stripe checkout to complete payment."}
         </p>
       </aside>
     </div>

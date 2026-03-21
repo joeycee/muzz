@@ -229,9 +229,8 @@ export function OrderStatusClient({
                 Preparing your files
               </h2>
               <p className="text-sm leading-7 text-stone-300">
-                We&apos;re confirming your payment with the backend now. Your download
-                buttons will appear here automatically as soon as the order is marked
-                paid.
+                We&apos;re confirming your payment now. Your download buttons will
+                appear here automatically as soon as your order is marked paid.
               </p>
             </div>
           </div>

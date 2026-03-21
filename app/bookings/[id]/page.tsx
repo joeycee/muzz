@@ -28,8 +28,7 @@ export default async function BookingStatusPage({
           Booking #{booking.id}
         </h1>
         <p className="text-lg leading-8 text-stone-300">
-          Review the deposit payment state and the booking details currently stored
-          in the backend.
+          Review your booking details and deposit payment status in one place.
         </p>
       </div>
       <BookingStatusClient
